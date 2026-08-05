@@ -1,0 +1,9 @@
+# Welcome to cx!
+
+name = input("What's your name? ")
+print("Hello, {name}!")
+
+for i in range(5) {
+  print("{i}...")
+}
+print("Go!")

@@ -1,0 +1,16 @@
+[Unit]
+Description=Sign and verify the published Codexyy release manifest
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+WorkingDirectory=/home/ubuntu/codexyy
+LoadCredentialEncrypted=release-signing.key:/etc/credstore.encrypted/codexyy/release-signing.key
+ExecStart=/home/ubuntu/codexyy/scripts/sign-release.sh
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/var/www/codexyy/cli-dl

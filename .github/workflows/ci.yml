@@ -1,0 +1,60 @@
+name: Production CI
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm audit --audit-level=high
+      - run: npm run lint
+      - run: npm run build
+
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m py_compile main.py backup_codexyy.py reconcile_subscriptions.py credential_env.py exec_with_credentials.py stripe_provider_test.py
+      - run: python -m unittest -v test_credential_env.py test_stripe_provider.py
+      - run: python test_stripe_lifecycle.py
+      - name: Stripe provider test-mode lifecycle
+        env:
+          STRIPE_TEST_SECRET_KEY: ${{ secrets.STRIPE_TEST_SECRET_KEY }}
+        run: if [ -n "$STRIPE_TEST_SECRET_KEY" ]; then python stripe_provider_test.py; else echo "Stripe test secret not configured; deterministic local lifecycle already passed"; fi
+
+  cli-and-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: tea/go.mod
+          cache-dependency-path: tea/go.sum
+      - run: go test ./...
+        working-directory: tea
+      - run: sh -n contrib/install.sh contrib/install-ai.sh contrib/install-offline.sh
+        working-directory: tea
+      - run: for file in agent/src/*.js agent/bin/*.js; do node --check "$file"; done

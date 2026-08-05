@@ -1,0 +1,21 @@
+/tea
+/gitea-vet
+/gitea-vet.exe
+
+.idea/
+.history/
+dist/
+
+.vscode/
+vendor/
+
+coverage.out
+
+dist/
+
+# Nix-specific
+.direnv/
+result
+result-*
+
+.DS_Store

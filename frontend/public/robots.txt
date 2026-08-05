@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+Disallow: /auth/callback
+Disallow: /auth/poll/
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /repo/
+Disallow: /s/
+Disallow: /chat/
+
+Sitemap: https://codexyy.dev/sitemap.xml

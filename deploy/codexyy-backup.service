@@ -1,0 +1,19 @@
+[Unit]
+Description=Encrypted Codexyy and Gitea backup with restore drill
+After=codexyy-backend.service codexyy-git.service
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/codexyy/backend
+LoadCredentialEncrypted=backend.env:/etc/credstore.encrypted/codexyy/backend.env
+LoadCredentialEncrypted=graph-mail.env:/etc/credstore.encrypted/codexyy/graph-mail.env
+LoadCredentialEncrypted=auth.dev.vars:/etc/credstore.encrypted/codexyy/auth.dev.vars
+LoadCredentialEncrypted=backup.key:/etc/credstore.encrypted/codexyy/backup.key
+ExecStart=/usr/bin/python3 /home/ubuntu/codexyy/backend/backup_codexyy.py
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/ubuntu/backups/codexyy /home/ubuntu/.config/codexyy /home/ubuntu/codexyy /home/ubuntu/gitea

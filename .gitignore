@@ -1,0 +1,36 @@
+# Runtime state and databases
+*.db
+*.db-*
+*.db.*
+backups/
+staging/
+monitor-state.json
+*.log
+
+# Credentials (production uses encrypted systemd credentials)
+.env
+.env.*
+!.env.example
+.dev.vars
+*.key
+*.pem
+*.p12
+*.pfx
+*password*
+
+# Dependencies and generated output
+**/node_modules/
+**/__pycache__/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.venv/
+**/venv/
+**/dist/
+frontend/dist/
+tea/cxy
+
+# Nested checkout metadata and editor state
+**/.git/
+.idea/
+.vscode/
+.DS_Store

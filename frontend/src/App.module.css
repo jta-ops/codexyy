@@ -1,0 +1,8 @@
+.pageHidden {
+  opacity: 0;
+}
+
+.pageIn {
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}

@@ -1,0 +1,263 @@
+.root {
+  position: fixed;
+  inset: 0;
+  background: #04040a;
+  overflow: hidden;
+  cursor: none;
+}
+
+/* Background layer — always mounted, shown/hidden instantly (transition handled by black flash) */
+.bg {
+  position: absolute;
+  inset: 0;
+}
+.bgHide { display: none; }
+.bgShow { display: block; }
+
+/* Black flash overlay for fade-to-black transition */
+.flash {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+}
+.flashIn  { opacity: 1; }
+.flashOut { opacity: 0; }
+
+/* Overlay to darken slightly */
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(4,4,10,0.55) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Center brand text */
+.brand {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+  gap: 12px;
+  text-align: center;
+  padding: 24px;
+}
+
+.brandName {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(48px, 8vw, 110px);
+  font-weight: 700;
+  color: #e2e2ec;
+  letter-spacing: -3px;
+  line-height: 1;
+  filter: drop-shadow(0 0 48px rgba(0,212,255,0.5));
+}
+.brandWord { color: #00d4ff; }
+.brandDot  { color: rgba(167,139,250,0.9); }
+.brandExt  { color: rgba(78,255,168,0.85); }
+
+.brandMemo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(11px, 1.5vw, 15px);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+.memoWrite { color: #00d4ff; text-shadow: 0 0 20px rgba(0,212,255,0.5); }
+.memoDot   { color: rgba(255,255,255,0.2); }
+.memoRun   { color: #4effa8; text-shadow: 0 0 20px rgba(78,255,168,0.5); }
+.memoShare { color: #a78bfa; text-shadow: 0 0 20px rgba(167,139,250,0.5); }
+
+/* Bottom status bar */
+.statusBar {
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.statusLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bgName {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.08em;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+.dot {
+  width: 5px;
+  height: 5px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  transition: background 0.3s, transform 0.3s;
+  cursor: pointer;
+  pointer-events: all;
+}
+.dotActive {
+  background: #00d4ff;
+  transform: scale(1.4);
+}
+
+.hint {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: 0.1em;
+}
+
+/* Progress bar (auto-rotate timer) */
+.progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #00d4ff, #a78bfa);
+  box-shadow: 0 0 8px rgba(0,212,255,0.6);
+  transition: none;
+  z-index: 5;
+}
+
+/* Z-menu overlay */
+.menuOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4,4,10,0.82);
+  backdrop-filter: blur(16px);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+.menu {
+  background: #0d0d18;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  padding: 32px 28px;
+  min-width: 340px;
+  max-width: 480px;
+  width: 90vw;
+}
+
+.menuTitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 20px;
+}
+
+.menuList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: grab;
+  user-select: none;
+  transition: background 0.12s;
+}
+.menuItem:hover { background: rgba(255,255,255,0.06); }
+.menuItemDisabled { opacity: 0.35; }
+
+.menuHandle {
+  color: rgba(255,255,255,0.2);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.menuItemName {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  flex: 1;
+}
+
+.menuToggle {
+  width: 32px;
+  height: 18px;
+  border-radius: 9px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.menuToggleOn  { background: #00d4ff; }
+.menuToggleOff { background: rgba(255,255,255,0.1); }
+.menuToggle::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left 0.2s;
+}
+.menuToggleOn::after  { left: 17px; }
+.menuToggleOff::after { left: 3px; }
+
+.menuFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menuClose {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 8px 18px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.menuClose:hover { color: #fff; background: rgba(255,255,255,0.08); }
+
+.menuHint {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.15);
+}

@@ -1,0 +1,27 @@
+[Unit]
+Description=codexyy agent backend (OpenCode, isolated)
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/codexyy-agent
+LoadCredentialEncrypted=agent-server.env:/etc/credstore.encrypted/codexyy/agent-server.env
+Environment="XDG_DATA_HOME=/home/ubuntu/codexyy-agent/xdg/data"
+Environment="XDG_CONFIG_HOME=/home/ubuntu/codexyy-agent/xdg/config"
+Environment="XDG_CACHE_HOME=/home/ubuntu/codexyy-agent/xdg/cache"
+Environment="XDG_STATE_HOME=/home/ubuntu/codexyy-agent/xdg/state"
+Environment="TMPDIR=/home/ubuntu/codexyy-agent/tmp"
+Environment="OPENCODE_DISABLE_AUTOUPDATE=1"
+ExecStart=/usr/bin/python3 /home/ubuntu/codexyy/backend/exec_with_credentials.py -- /home/ubuntu/codexyy-agent/bin/opencode serve --hostname 127.0.0.1 --port 4599
+Restart=always
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/ubuntu/codexyy-agent
+
+[Install]
+WantedBy=multi-user.target

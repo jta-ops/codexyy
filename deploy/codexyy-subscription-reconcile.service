@@ -1,0 +1,14 @@
+[Unit]
+Description=Reconcile Codexyy subscriptions with Stripe
+After=network-online.target codexyy-backend.service
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/codexyy/backend
+LoadCredentialEncrypted=backend.env:/etc/credstore.encrypted/codexyy/backend.env
+ExecStart=/usr/bin/python3 /home/ubuntu/codexyy/backend/reconcile_subscriptions.py --apply
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/home/ubuntu/codexyy

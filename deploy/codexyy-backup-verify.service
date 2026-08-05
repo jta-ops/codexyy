@@ -1,0 +1,14 @@
+[Unit]
+Description=Verify latest encrypted Codexyy backup
+After=codexyy-backup.service
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+LoadCredentialEncrypted=backup.key:/etc/credstore.encrypted/codexyy/backup.key
+ExecStart=/usr/bin/python3 /home/ubuntu/codexyy/backend/backup_codexyy.py --verify-latest
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full

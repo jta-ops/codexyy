@@ -1,0 +1,9 @@
+[Unit]
+Description=Weekly Codexyy restore verification drill
+
+[Timer]
+OnCalendar=Sun *-*-* 04:15:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target

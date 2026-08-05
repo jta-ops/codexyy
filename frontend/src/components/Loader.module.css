@@ -1,0 +1,169 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #04040a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.7, 0, 1, 1);
+}
+
+.exit {
+  opacity: 0;
+  transform: scale(1.06);
+  pointer-events: none;
+}
+
+.shader {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.shaderIn { opacity: 0.5; }
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+.gridIn { opacity: 1; }
+
+.scan {
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00d4ff 30%, rgba(0,212,255,0.9) 50%, #00d4ff 70%, transparent);
+  box-shadow: 0 0 24px 6px rgba(0,212,255,0.22);
+  top: -2px;
+  opacity: 0;
+  pointer-events: none;
+}
+.scanRun {
+  animation: scanDown 1.2s cubic-bezier(0.4, 0, 0.55, 1) forwards;
+}
+@keyframes scanDown {
+  0%   { top: -2px; opacity: 0; }
+  6%   { opacity: 1; }
+  94%  { opacity: 0.7; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoGlow {
+  transition: filter 0.6s ease;
+}
+.glowOn {
+  filter:
+    drop-shadow(0 0 32px rgba(0,212,255,0.55))
+    drop-shadow(0 0 70px rgba(0,212,255,0.18));
+}
+
+.logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(34px, 6vw, 58px);
+  font-weight: 600;
+  letter-spacing: -1px;
+  display: flex;
+  align-items: baseline;
+  user-select: none;
+}
+
+.char {
+  display: inline-block;
+  color: #e2e2ec;
+  opacity: 0;
+  transform: translateY(22px) scale(0.82);
+  filter: blur(7px);
+  transition:
+    opacity 0.42s cubic-bezier(0.2, 1, 0.4, 1),
+    transform 0.42s cubic-bezier(0.2, 1, 0.4, 1),
+    filter 0.42s ease;
+}
+.charIn {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.dotChar { color: #00d4ff; }
+.extChar { color: #00d4ff; font-size: 0.62em; }
+
+.sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: transparent;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.5s ease, transform 0.5s ease, color 0.5s ease;
+}
+.subIn {
+  color: rgba(0,212,255,0.65);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.barTrack {
+  width: 160px;
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00d4ff, #a78bfa, #00d4ff);
+  background-size: 200% 100%;
+  box-shadow: 0 0 12px rgba(0,212,255,0.9);
+  border-radius: 2px;
+}
+.barRun {
+  width: 100%;
+  transition: width 1.65s cubic-bezier(0.1, 0.9, 0.3, 1);
+  animation: barShine 1.2s linear infinite;
+}
+@keyframes barShine {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.flash {
+  position: absolute;
+  inset: 0;
+  background: #00d4ff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+.flashGo {
+  animation: flashOut 0.45s ease forwards;
+}
+@keyframes flashOut {
+  0%   { opacity: 0; }
+  30%  { opacity: 0.15; }
+  100% { opacity: 0; }
+}
