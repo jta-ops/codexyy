@@ -40,11 +40,21 @@ function AppInner() {
   const done = useCallback(() => setLoaded(true), [])
 
   useEffect(() => {
-    const main = document.querySelector('main')
-    if (!main) return
-    main.id = 'main-content'
-    main.setAttribute('tabindex', '-1')
-    main.focus({ preventScroll: true })
+    let attempts = 0
+    let timer = 0
+    const focusMain = () => {
+      const main = document.querySelector('main')
+      if (main) {
+        main.id = 'main-content'
+        main.setAttribute('tabindex', '-1')
+        main.focus({ preventScroll: true })
+        return
+      }
+      attempts += 1
+      if (attempts < 20) timer = window.setTimeout(focusMain, 25)
+    }
+    focusMain()
+    return () => window.clearTimeout(timer)
   }, [location.pathname])
 
   const routes = <Suspense fallback={<div role="status" aria-label="Loading page" style={{ minHeight: '100vh', background: '#07070a' }} />}>
